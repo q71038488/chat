@@ -10,6 +10,7 @@ def read_file(filename):
 #整理對話內容
 def convert(chat_list):
 	new = []
+	person = None
 	for line in chat_list:
 		if line == 'Allen':
 			person = 'Allen'
@@ -17,11 +18,12 @@ def convert(chat_list):
 		elif line == 'Tom':
 			person = 'Tom'
 			continue
-		new.append(person + ':' + line)
+		if person:
+			new.append(person + ':' + line)
 	return new
 #寫入新檔案
-def write_file(new_list):
-	with open('output.txt', 'w', encoding='utf-8') as f:
+def write_file(new_filename, new_list):
+	with open(new_filename, 'w', encoding='utf-8') as f:
 		for line in new_list:
 			f.write(line + '\n')
 		return '檔案排序完成，已寫入至output.txt'
@@ -31,7 +33,7 @@ def main():
 	if os.path.isfile(filename):
 		chat_list = read_file(filename)
 		new_list = convert(chat_list)
-		print(write_file(new_list))
+		print(write_file('output.txt', new_list))
 	else:
 		print('找不到檔案')
 
