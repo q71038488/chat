@@ -27,61 +27,72 @@ def convert(chat_list):
 	na_callcancet_count = 0
 	na_nocatch_count = 0
 	for line in chat_list:
-		if 'Na' in line or '肉汁' in line:
+		if '2022/' in line or '2023/' in line or len(line) < 1:
+			continue
+		else:
 			s = line.split()
 			print(s)
-			time = s[0]
-			name = s[1]
-			if name == '肉汁':
-				if s[2] == '[貼圖]':
-					me_sticker_count += 1
-				elif s[2] == '[照片]':
-					me_pic_count += 1
-				elif s[2] == '[語音訊息]':
-					me_sound_count += 1
-				elif s[2] == '無人接聽':
-					me_call_count += 1
-				elif s[2] == '未接來電':
-					me_nocatch_count += 1
-				elif s[2] == '您已結束通話':
-					me_callcancet_count += 1
-				elif s[2] == '通話時間':
-					d = s[3].split(':')
-					if len(d) == 3:
-						sec += int(d[2])
-						mini += int(d[1])
-						hr += int(d[0])
-					elif len(d) == 2:
-						sec += int(d[1])
-						mini += int(d[0])
+			if len(s) < 2:
+				for t in s:
+					me_word_count += len(t)
+			else:
+				time = s[0]
+				name = s[1]
+				if name == '肉汁':
+					if s[2] == '[貼圖]':
+						me_sticker_count += 1
+					elif s[2] == '[照片]':
+						me_pic_count += 1
+					elif s[2] == '[語音訊息]':
+						me_sound_count += 1
+					elif s[2] == '無人接聽':
+						me_call_count += 1
+					elif s[2] == '未接來電':
+						me_nocatch_count += 1
+					elif s[2] == '您已結束通話':
+						me_callcancet_count += 1
+					elif s[2] == '通話時間':
+						d = s[3].split(':')
+						if len(d) == 3:
+							sec += int(d[2])
+							mini += int(d[1])
+							hr += int(d[0])
+						elif len(d) == 2:
+							sec += int(d[1])
+							mini += int(d[0])
+					else:
+						for t in s[2:]:
+							me_word_count += len(t)
+				elif name == 'Na':
+					if s[2] == '[貼圖]':
+						na_sticker_count += 1
+					elif s[2] == '[照片]':
+						na_pic_count += 1
+					elif s[2] == '[語音訊息]':
+						na_sound_count += 1
+					elif s[2] == '無人接聽':
+						na_call_count += 1
+					elif s[2] == '未接來電':
+						na_nocatch_count += 1
+					elif s[2] == '您已結束通話':
+						na_callcancet_count += 1
+					elif s[2] == '通話時間':
+						d = s[3].split(':')
+						if len(d) == 3:
+							sec += int(d[2])
+							mini += int(d[1])
+							hr += int(d[0])
+						elif len(d) == 2:
+							sec += int(d[1])
+							mini += int(d[0])
+					else:
+						for t in s[2:]:
+							na_word_count += len(t)
 				else:
-					for t in s[2:]:
+					s[1] != 'Na' and s[1] != '肉汁':
+					for t in s[1:]:
 						me_word_count += len(t)
-			elif name == 'Na':
-				if s[2] == '[貼圖]':
-					na_sticker_count += 1
-				elif s[2] == '[照片]':
-					na_pic_count += 1
-				elif s[2] == '[語音訊息]':
-					na_sound_count += 1
-				elif s[2] == '無人接聽':
-					na_call_count += 1
-				elif s[2] == '未接來電':
-					na_nocatch_count += 1
-				elif s[2] == '您已結束通話':
-					na_callcancet_count += 1
-				elif s[2] == '通話時間':
-					d = s[3].split(':')
-					if len(d) == 3:
-						sec += int(d[2])
-						mini += int(d[1])
-						hr += int(d[0])
-					elif len(d) == 2:
-						sec += int(d[1])
-						mini += int(d[0])
-				else:
-					for t in s[2:]:
-						na_word_count += len(t)
+
 	while(sec > 60):
 		mini += 1
 		sec -= 60
