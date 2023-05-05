@@ -26,19 +26,25 @@ def convert(chat_list):
 	na_call_count = 0
 	na_callcancet_count = 0
 	na_nocatch_count = 0
+	now_name = None
 	for line in chat_list:
 		if '2022/' in line or '2023/' in line or len(line) < 1:
 			continue
 		else:
 			s = line.split()
 			print(s)
-			if len(s) < 2:
-				for t in s:
-					me_word_count += len(t)
+			if len(s) < 3:
+				if now_name == '肉汁':
+					for t in s:
+						me_word_count += len(t)
+				if now_name == 'Na':
+					for t in s:
+						na_word_count += len(t)
 			else:
 				time = s[0]
 				name = s[1]
 				if name == '肉汁':
+					now_name = '肉汁'
 					if s[2] == '[貼圖]':
 						me_sticker_count += 1
 					elif s[2] == '[照片]':
@@ -64,6 +70,7 @@ def convert(chat_list):
 						for t in s[2:]:
 							me_word_count += len(t)
 				elif name == 'Na':
+					now_name = 'Na'
 					if s[2] == '[貼圖]':
 						na_sticker_count += 1
 					elif s[2] == '[照片]':
@@ -88,10 +95,6 @@ def convert(chat_list):
 					else:
 						for t in s[2:]:
 							na_word_count += len(t)
-				else:
-					s[1] != 'Na' and s[1] != '肉汁':
-					for t in s[1:]:
-						me_word_count += len(t)
 
 	while(sec > 60):
 		mini += 1
